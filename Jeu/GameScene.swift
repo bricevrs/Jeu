@@ -39,6 +39,8 @@ class GameScene: SKScene {
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         addBackgrounds()
         addPerso()
+        perso.run(marcher())
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -46,9 +48,7 @@ class GameScene: SKScene {
     }
 
     
-    
     //[[  Creation personnage
-    
     
     func addPerso(){
         perso = SKSpriteNode(imageNamed: "marche1")
@@ -61,28 +61,45 @@ class GameScene: SKScene {
         perso.size = dimPerso
         
         perso.physicsBody = SKPhysicsBody(rectangleOf: dimPerso)
-        
-        
-        var textures:[SKTexture] = []
-        for i in 2...4 {
-            textures.append(SKTexture(imageNamed: "marche\(i)"))
-        }
-        let persoAnnimation = SKAction.animate(with: textures, timePerFrame: 0.2)
-        
-        perso.run(SKAction.repeatForever(persoAnnimation))
+        perso.physicsBody?.allowsRotation=false
         
         self.addChild(perso)
     }
+    
+    //[[ Annimation personnage
+    func marcher() -> SKAction {
+        var textures:[SKTexture] = []
+        for i in 2...5 {
+            textures.append(SKTexture(imageNamed: "marche\(i)"))
+        }
+        let annimMarche = SKAction.animate(with: textures, timePerFrame: 0.2)
+        
+        return annimMarche
+    }
+    
+    
+    //]]
+    
     
     //Gestion des pressions sur écran
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches{
+            let locY = touch.location(in: self).y
             let locX = touch.location(in: self).x
-            if locX > (sceneX/2) {
+            
+            //Gestion saut
+            if (locY > (sceneY/2)) && (locX > (sceneX/2)) {
                 print("saut")
                 perso.physicsBody?.applyImpulse(saut)
             }
+            
+            //Gestion des frappes
+            if (locY <= (sceneY/2)) {
+                print("frappe")
+                
+            }
+            
         }
     }
     
