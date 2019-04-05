@@ -10,18 +10,74 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-
-    private var ground = SKSpriteNode()
-    private var bgVelocity:CGFloat = 3.0
+    
+    //perso
+    private var perso = SKSpriteNode()
+    
+    //saut
+    private let saut:CGVector = CGVector(dx: 50, dy: 500)
+    
+    
+    //Velocité de la scene
+    private var bgVelocity:CGFloat = 5.0
+    
+    //Capture dimension scène
+    private var sceneX:CGFloat = CGFloat()
+    private var sceneY:CGFloat = CGFloat()
     
     override func didMove(to view: SKView) {
         self.anchorPoint=CGPoint(x: 0, y: 0)
+        sceneX = self.size.width
+        sceneY = self.size.height
         addBackgrounds()
+        addPerso()
     }
     
     override func update(_ currentTime: TimeInterval) {
         moveBackgrounds()
     }
+
+    
+    
+    //[[  Creation personnage
+    
+    
+    func addPerso(){
+        perso = SKSpriteNode(imageNamed: "marche1")
+        perso.name="perso"
+        perso.zPosition=0
+        perso.anchorPoint=CGPoint(x: 0, y: 0)
+        perso.position=CGPoint(x: 150, y: 50)
+        perso.size=CGSize(width: 102, height: 162)
+        
+        var textures:[SKTexture] = []
+        for i in 2...5 {
+            textures.append(SKTexture(imageNamed: "marche\(i)"))
+        }
+        let persoAnnimation = SKAction.animate(with: textures, timePerFrame: 0.2)
+        
+        perso.run(SKAction.repeatForever(persoAnnimation))
+        
+        self.addChild(perso)
+    }
+    
+    //Gestion des pressions sur écran
+    
+    /*override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches{
+            let locX = touch.location(in: self).x
+            if locX > (sceneX/2) {
+                print("saut")
+                perso.physicsBody?.applyImpulse(saut)
+            }
+        }
+    }*/
+    
+    
+    
+    //]]
+    
+    
     
     //[[ Creation et gestion mouvement du background
     
@@ -29,11 +85,21 @@ class GameScene: SKScene {
         for i in 0...3{
             let bg = SKSpriteNode(imageNamed: "Forest")
             bg.name="bg"
+            bg.zPosition = -1
             bg.anchorPoint=CGPoint(x: 0, y: 0)
             bg.position=CGPoint(x: i * Int(bg.size.width), y: 0)
             
-            
             self.addChild(bg)
+            
+            /*let ptfs = SKSpriteNode(imageNamed: "platforms")
+            ptfs.name="ptfs"
+            ptfs.zPosition = -1
+            ptfs.anchorPoint=CGPoint(x: 0, y: 0)
+            ptfs.position=CGPoint(x: i * Int(ptfs.size.width), y: 0)
+            
+            
+            
+            self.addChild(ptfs)*/
         }
     }
     
@@ -49,8 +115,10 @@ class GameScene: SKScene {
     })
     }
     
-    
     //]]
     
-    
 }
+    
+    
+    
+
