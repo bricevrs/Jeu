@@ -15,20 +15,25 @@ class GameScene: SKScene {
     private var perso = SKSpriteNode()
     
     //saut
-    private let saut:CGVector = CGVector(dx: 50, dy: 500)
+    private let saut:CGVector = CGVector(dx: 0, dy: 500)
     
     
     //Velocité de la scene
     private var bgVelocity:CGFloat = 5.0
     
-    //Capture dimension scène
+    //Dimension scène
     private var sceneX:CGFloat = CGFloat()
     private var sceneY:CGFloat = CGFloat()
+    
+    //Dimension perso
+    private var dimPerso:CGSize = CGSize(width: 102, height: 162)
+    
     
     override func didMove(to view: SKView) {
         self.anchorPoint=CGPoint(x: 0, y: 0)
         sceneX = self.size.width
         sceneY = self.size.height
+        self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         addBackgrounds()
         addPerso()
     }
@@ -45,13 +50,18 @@ class GameScene: SKScene {
     func addPerso(){
         perso = SKSpriteNode(imageNamed: "marche1")
         perso.name="perso"
+        
         perso.zPosition=0
         perso.anchorPoint=CGPoint(x: 0, y: 0)
         perso.position=CGPoint(x: 150, y: 50)
-        perso.size=CGSize(width: 102, height: 162)
+        
+        perso.size = dimPerso
+        
+        perso.physicsBody = SKPhysicsBody(rectangleOf: dimPerso)
+        
         
         var textures:[SKTexture] = []
-        for i in 2...5 {
+        for i in 2...4 {
             textures.append(SKTexture(imageNamed: "marche\(i)"))
         }
         let persoAnnimation = SKAction.animate(with: textures, timePerFrame: 0.2)
