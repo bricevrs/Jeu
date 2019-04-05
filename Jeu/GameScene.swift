@@ -14,6 +14,7 @@ class GameScene: SKScene {
     //perso
     private var perso = SKSpriteNode()
     
+    
     //saut
     private let saut:CGVector = CGVector(dx: 0, dy: 400)
     
@@ -39,7 +40,7 @@ class GameScene: SKScene {
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         addBackgrounds()
         addPerso()
-        perso.run(marcher())
+        perso.run(SKAction.repeatForever(marcher()))
         
     }
     
@@ -66,15 +67,22 @@ class GameScene: SKScene {
         self.addChild(perso)
     }
     
-    //[[ Annimation personnage
+    //[[ Animation personnage
     func marcher() -> SKAction {
         var textures:[SKTexture] = []
-        for i in 2...5 {
-            textures.append(SKTexture(imageNamed: "marche\(i)"))
-        }
-        let annimMarche = SKAction.animate(with: textures, timePerFrame: 0.2)
+        for i in 2...5 { textures.append(SKTexture(imageNamed: "marche\(i)")) }
+        let animMarche = SKAction.animate(with: textures, timePerFrame: 0.2)
         
-        return annimMarche
+        return animMarche
+    }
+    
+    func frapper() -> SKAction {
+        var textures:[SKTexture] = []
+        for i in 1...4 { textures.append(SKTexture(imageNamed: "frappe\(i)")) }
+        let animFrappe = SKAction.animate(with: textures, timePerFrame: 0.05
+        )
+        
+        return animFrappe
     }
     
     
@@ -92,12 +100,12 @@ class GameScene: SKScene {
             if (locY > (sceneY/2)) && (locX > (sceneX/2)) {
                 print("saut")
                 perso.physicsBody?.applyImpulse(saut)
-            }
+                }
             
             //Gestion des frappes
             if (locY <= (sceneY/2)) {
                 print("frappe")
-                
+                perso.run(frapper())
             }
             
         }
