@@ -15,11 +15,13 @@ class GameScene: SKScene {
     private var perso = SKSpriteNode()
     
     //saut
-    private let saut:CGVector = CGVector(dx: 0, dy: 500)
+    private let saut:CGVector = CGVector(dx: 0, dy: 400)
     
     
-    //Velocité de la scene
+    //Physique de la scène
     private var bgVelocity:CGFloat = 5.0
+    private var gravity:CGVector = CGVector(dx: 0, dy: -10)
+    
     
     //Dimension scène
     private var sceneX:CGFloat = CGFloat()
@@ -33,6 +35,7 @@ class GameScene: SKScene {
         self.anchorPoint=CGPoint(x: 0, y: 0)
         sceneX = self.size.width
         sceneY = self.size.height
+        physicsWorld.gravity = gravity
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         addBackgrounds()
         addPerso()
@@ -73,7 +76,7 @@ class GameScene: SKScene {
     
     //Gestion des pressions sur écran
     
-    /*override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches{
             let locX = touch.location(in: self).x
             if locX > (sceneX/2) {
@@ -81,7 +84,7 @@ class GameScene: SKScene {
                 perso.physicsBody?.applyImpulse(saut)
             }
         }
-    }*/
+    }
     
     
     
