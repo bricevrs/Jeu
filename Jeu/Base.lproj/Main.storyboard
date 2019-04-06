@@ -39,7 +39,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Jouer"/>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="show" id="R9c-X1-B6M"/>
+                                    <segue destination="BV1-FR-VrT" kind="presentation" id="teD-gJ-ZhC"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pku-HA-Ibk">
