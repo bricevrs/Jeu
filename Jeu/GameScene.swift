@@ -15,6 +15,8 @@ let persoHitName = "persoHit"
 let persoSufferName = "persoSuffer"
 let persoJumpName = "persoJump"
 
+var backgroundMusic: SKAudioNode!
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Constantes pour les catégories (collisions/contacts)
@@ -59,6 +61,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMove(to view: SKView) {
+        
+        if let musicURL = Bundle.main.url(forResource: "music", withExtension: "mp3"){
+            backgroundMusic = SKAudioNode(url: musicURL)
+            addChild(backgroundMusic)
+        }
+        
         self.anchorPoint=CGPoint(x: 0, y: 0)
         sceneX = self.size.width
         sceneY = self.size.height
@@ -146,7 +154,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
         if(contact.bodyA.node?.name=="perso" && contact.bodyB.node?.name=="ennemi"){
-            if(!(hitting)) { life-=1 ; print(life) ; play(sound: persoSuffer)/*son blessant*/}
+            if(!(hitting)) {
+                life-=1 ; print(life) ;
+                play(sound: persoSuffer)
+                
+            }
             if(hitting) {score+=1 ; print(score) }
             contact.bodyB.node?.removeFromParent()
         }
@@ -161,6 +173,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func play(sound : SKAction){
         run(sound)
+        print("son")
     }
     
     //]]
@@ -178,9 +191,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var textures:[SKTexture] = []
         for i in 1...4 { textures.append(SKTexture(imageNamed: "frappe\(i)")) }
         play(sound: persoHit)
-        hitting = true
         let animFrappe = SKAction.animate(with: textures, timePerFrame: 0.05)
-        hitting = false
         
         return animFrappe
     }
@@ -241,10 +252,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Gestion des frappes
             if (locY <= (sceneY/2)) {
+                hitting = true
                 perso.run(frapper())
             }
             
         }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if (hitting) {hitting=false}
     }
     
     

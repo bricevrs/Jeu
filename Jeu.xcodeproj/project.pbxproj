@@ -15,6 +15,11 @@
 		425AA0AF224D2916009C31C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 425AA0AD224D2916009C31C9 /* Main.storyboard */; };
 		425AA0B1224D2917009C31C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 425AA0B0224D2917009C31C9 /* Assets.xcassets */; };
 		425AA0B4224D2917009C31C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 425AA0B2224D2917009C31C9 /* LaunchScreen.storyboard */; };
+		426C45882258D184000EF920 /* gameSound in Resources */ = {isa = PBXBuildFile; fileRef = 426C45872258D184000EF920 /* gameSound */; };
+		426C45A22258D969000EF920 /* persoHit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 426C45A12258D969000EF920 /* persoHit.mp3 */; };
+		426C45A42258D96E000EF920 /* persoSuffer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 426C45A32258D96E000EF920 /* persoSuffer.mp3 */; };
+		426C45AA2258DA43000EF920 /* persoJump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 426C45A92258DA43000EF920 /* persoJump.mp3 */; };
+		426C45AE2258F2A2000EF920 /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 426C45AD2258F2A1000EF920 /* music.mp3 */; };
 		4289637222549C7600B7BD33 /* EndScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4289637122549C7600B7BD33 /* EndScene.sks */; };
 		428963742254A05100B7BD33 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428963732254A05100B7BD33 /* MainMenu.swift */; };
 /* End PBXBuildFile section */
@@ -30,6 +35,11 @@
 		425AA0B0224D2917009C31C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		425AA0B3224D2917009C31C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		425AA0B5224D2917009C31C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		426C45872258D184000EF920 /* gameSound */ = {isa = PBXFileReference; lastKnownFileType = folder; name = gameSound; path = ../../../../../gameSound; sourceTree = "<group>"; };
+		426C45A12258D969000EF920 /* persoHit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = persoHit.mp3; path = ../../../../../gameSound/persoHit.mp3; sourceTree = "<group>"; };
+		426C45A32258D96E000EF920 /* persoSuffer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = persoSuffer.mp3; path = ../../../../../gameSound/persoSuffer.mp3; sourceTree = "<group>"; };
+		426C45A92258DA43000EF920 /* persoJump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = persoJump.mp3; path = ../../../../../gameSound/persoJump.mp3; sourceTree = "<group>"; };
+		426C45AD2258F2A1000EF920 /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = music.mp3; path = ../../../../../gameSound/music.mp3; sourceTree = "<group>"; };
 		4289637122549C7600B7BD33 /* EndScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = EndScene.sks; sourceTree = "<group>"; };
 		428963732254A05100B7BD33 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,7 +74,12 @@
 		425AA0A2224D2916009C31C9 /* Jeu */ = {
 			isa = PBXGroup;
 			children = (
+				426C45872258D184000EF920 /* gameSound */,
 				425AA0A3224D2916009C31C9 /* AppDelegate.swift */,
+				426C45A12258D969000EF920 /* persoHit.mp3 */,
+				426C45AD2258F2A1000EF920 /* music.mp3 */,
+				426C45A92258DA43000EF920 /* persoJump.mp3 */,
+				426C45A32258D96E000EF920 /* persoSuffer.mp3 */,
 				425AA0A5224D2916009C31C9 /* GameScene.sks */,
 				4289637122549C7600B7BD33 /* EndScene.sks */,
 				425AA0A7224D2916009C31C9 /* Actions.sks */,
@@ -137,12 +152,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				426C45A22258D969000EF920 /* persoHit.mp3 in Resources */,
+				426C45A42258D96E000EF920 /* persoSuffer.mp3 in Resources */,
 				4289637222549C7600B7BD33 /* EndScene.sks in Resources */,
+				426C45882258D184000EF920 /* gameSound in Resources */,
+				426C45AA2258DA43000EF920 /* persoJump.mp3 in Resources */,
 				425AA0AF224D2916009C31C9 /* Main.storyboard in Resources */,
 				425AA0A6224D2916009C31C9 /* GameScene.sks in Resources */,
 				425AA0B1224D2917009C31C9 /* Assets.xcassets in Resources */,
 				425AA0B4224D2917009C31C9 /* LaunchScreen.storyboard in Resources */,
 				425AA0A8224D2916009C31C9 /* Actions.sks in Resources */,
+				426C45AE2258F2A2000EF920 /* music.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
