@@ -16,11 +16,12 @@ let persoSufferName = "persoSuffer"
 let persoJumpName = "persoJump"
 
 var backgroundMusic: SKAudioNode!
+let endScene = SKScene(fileNamed: "EndScene")
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Constantes pour les catégories (collisions/contacts)
-    let persoCategory:UInt32 = 1         // 00000000 00000000 00000000 00000001
+    let persoCategory:UInt32 = 1        // 00000000 00000000 00000000 00000001
     let enemyCategory:UInt32 = 2         // 00000000 00000000 00000000 00000010
     let sceneCategory:UInt32 = 4         // 00000000 00000000 00000000 00000100
     
@@ -29,14 +30,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let persoSuffer = SKAction.playSoundFileNamed(persoSufferName, waitForCompletion: false)
     let persoJump = SKAction.playSoundFileNamed(persoJumpName, waitForCompletion: false)
     
+    //Var scores/vie
+    private var scoreLabel:SKLabelNode!
+    //private var life:SKLabelNode!
+    
+    var score:Int = 0{
+        didSet{
+            scoreLabel.text = "Score : \(score)"
+        }
+    }
+
+    
+    
+    
     //Var pour generation aléatoire enemy
     private var nbRandom:Int = 0
     
     //perso
     private var perso = SKSpriteNode()
     private var hitting:Bool = false
-    private var life:Int = 15
-    private var score:Int = 0
+    private var life:Int = 5
+    //private var score:Int = 0
     
     
     //saut
@@ -62,18 +76,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
+        //Musique de fond
         if let musicURL = Bundle.main.url(forResource: "music", withExtension: "mp3"){
             backgroundMusic = SKAudioNode(url: musicURL)
             addChild(backgroundMusic)
         }
         
         self.anchorPoint=CGPoint(x: 0, y: 0)
+        //capture des dimensions de la scene
         sceneX = self.size.width
         sceneY = self.size.height
         physicsWorld.contactDelegate = self
+        //Config de la physique concenernant la scene
         physicsWorld.gravity = gravity
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: CGRect(x: frame.minX, y: frame.minY, width: frame.width*2, height: frame.height))
         self.physicsBody?.collisionBitMask = sceneCategory
+        
+        scoreLabel = SKLabelNode(text: "Score : 0")
+        scoreLabel.position = CGPoint(x:sceneX/2, y: 30)
+        scoreLabel.fontSize = 36
+        scoreLabel.fontColor = UIColor.white
+        self.addChild(scoreLabel)
+        
         addBackgrounds()
         addPerso()
         perso.run(SKAction.repeatForever(marcher()))
@@ -155,11 +179,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         if(contact.bodyA.node?.name=="perso" && contact.bodyB.node?.name=="ennemi"){
             if(!(hitting)) {
-                life-=1 ; print(life) ;
+                life-=1 //;//print("life : "+String(life))
+                if(life<=0) {
+                    
+                    
+                    view?.presentScene(endScene!,transition: SKTransition.doorsOpenVertical(withDuration: 1))
+                
+                }
                 play(sound: persoSuffer)
                 
             }
-            if(hitting) {score+=1 ; print(score) }
+            if(hitting) {score+=1 ; print("score : "+String(score)) }
             contact.bodyB.node?.removeFromParent()
         }
         if(contact.bodyB.node?.name=="perso" && contact.bodyA.node?.name=="ennemi"){
@@ -173,7 +203,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func play(sound : SKAction){
         run(sound)
-        print("son")
     }
     
     //]]
@@ -188,12 +217,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func frapper() -> SKAction {
+        hitting = true
+        print("start hit")
+        
         var textures:[SKTexture] = []
         for i in 1...4 { textures.append(SKTexture(imageNamed: "frappe\(i)")) }
         play(sound: persoHit)
         let animFrappe = SKAction.animate(with: textures, timePerFrame: 0.05)
         
-        return animFrappe
+        let wait = SKAction.wait(forDuration: 1)
+        
+        let finish = SKAction.run {
+            self.hitting = false
+            print("stop hit")
+        }
+        
+        let seq = SKAction.sequence([animFrappe, wait, finish])
+        
+        return seq
     }
     
     func walkEnemy() -> SKAction {
@@ -235,9 +276,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     })
     }
     
+    //[[
+    
+    
     //]]
     
-    //Gestion des pressions sur écran
+    //]]
+    
+    //Gestion des touchs sur écran
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches{
@@ -252,19 +298,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Gestion des frappes
             if (locY <= (sceneY/2)) {
-                hitting = true
                 perso.run(frapper())
             }
-            
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if (hitting) {hitting=false}
-    }
+    //]]
     
+    //[[ Fonction fin de jeu
     
-    
+
+
     //]]
     
 }
