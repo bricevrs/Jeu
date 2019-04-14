@@ -16,7 +16,12 @@ let persoSufferName = "persoSuffer"
 let persoJumpName = "persoJump"
 
 var backgroundMusic: SKAudioNode!
-let endScene = SKScene(fileNamed: "EndScene")
+let endScene = SKScene(fileNamed: "")
+
+struct structScore {
+    static var tabScore = [(String,Int)]()
+    static var currentScore:Int = 0
+}
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -73,8 +78,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Dimension enemy
     private var dimEnemy:CGSize = CGSize(width: 72, height: 70)
     
+    var run:Bool = true;
     
     override func didMove(to view: SKView) {
+        
+        
         
         //Musique de fond
         if let musicURL = Bundle.main.url(forResource: "music", withExtension: "mp3"){
@@ -183,7 +191,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if(life<=0) {
                     
                     
-                    view?.presentScene(endScene!,transition: SKTransition.doorsOpenVertical(withDuration: 1))
+                    if(self.run){
+                        self.run=false
+                        structScore.currentScore = score
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let vc = storyboard.instantiateViewController(withIdentifier: "endScene")
+                        vc.view.frame=(self.view?.window?.rootViewController?.view.frame)!
+                        vc.view.layoutIfNeeded()
+                        UIView.transition(with: (self.view?.window)!, duration: 0.3, options: .transitionFlipFromRight, animations: {
+                            self.view?.window?.rootViewController=vc
+                        }, completion: { completed in
+                            self.view?.window?.rootViewController?.dismiss(animated: false, completion: nil)
+                        })
+                    }
+                    
                 
                 }
                 play(sound: persoSuffer)
