@@ -16,7 +16,6 @@ let persoSufferName = "persoSuffer"
 let persoJumpName = "persoJump"
 
 var backgroundMusic: SKAudioNode!
-let endScene = SKScene(fileNamed: "")
 
 struct structScore {
     static var tabScore = [(String,Int)]()
@@ -54,7 +53,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //perso
     private var perso = SKSpriteNode()
     private var hitting:Bool = false
-    private var life:Int = 5
+    private var life:Int = 1
     //private var score:Int = 0
     
     
